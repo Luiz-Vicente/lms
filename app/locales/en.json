@@ -1,0 +1,80 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred. Please try again."
+  },
+  "login": {
+    "title": "Sign in",
+    "description": "Enter your email to access your account.",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot your password?",
+    "submit": "Sign in",
+    "submitting": "Signing in...",
+    "registerLink": "Don't have an account?",
+    "register": "Sign up",
+    "errors": {
+      "invalidCredentials": "Invalid email or password.",
+      "generic": "Login failed. Please try again."
+    }
+  },
+  "register": {
+    "title": "Create account",
+    "description": "Fill in the details below to register.",
+    "sections": {
+      "personalData": "Personal data",
+      "address": "Address",
+      "password": "Password"
+    },
+    "fields": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "cpf": "CPF",
+      "cep": "ZIP code",
+      "street": "Street",
+      "number": "Number",
+      "complement": "Complement",
+      "neighborhood": "Neighborhood",
+      "city": "City",
+      "state": "State",
+      "password": "Password",
+      "confirmPassword": "Confirm password"
+    },
+    "placeholders": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john@email.com",
+      "phone": "(11) 99999-9999",
+      "street": "Flower Street",
+      "number": "123",
+      "complement": "Apt 4B (optional)",
+      "neighborhood": "Downtown",
+      "city": "São Paulo",
+      "state": "SP"
+    },
+    "cep": {
+      "loading": "Looking up...",
+      "notFound": "ZIP code not found.",
+      "error": "Error looking up ZIP code."
+    },
+    "submit": "Create account",
+    "submitting": "Creating account...",
+    "loginLink": "Already have an account?",
+    "login": "Sign in",
+    "errors": {
+      "conflict": "Data already registered.",
+      "generic": "Registration failed. Please try again."
+    }
+  },
+  "home": {
+    "title": "Home"
+  },
+  "themeToggle": {
+    "ariaLabel": "Toggle theme"
+  },
+  "languageSwitcher": {
+    "ariaLabel": "Switch language"
+  }
+}

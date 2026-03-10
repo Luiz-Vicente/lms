@@ -15,7 +15,19 @@ export default defineNuxtConfig({
       tailwindcss() as never,
     ],
   },
-  modules: ['shadcn-nuxt', '@nuxtjs/color-mode'],
+  modules: [
+    'shadcn-nuxt',
+    '@nuxtjs/color-mode',
+    ['@nuxtjs/i18n', {
+      defaultLocale: 'pt',
+      locales: [
+        { code: 'pt', name: 'Português', file: 'pt.json' },
+        { code: 'en', name: 'English', file: 'en.json' },
+      ],
+      strategy: 'no_prefix',
+      lazy: true,
+    }],
+  ],
   shadcn: {
     /**
      * Prefix for all the imported component.

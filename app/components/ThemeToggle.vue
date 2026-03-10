@@ -2,6 +2,7 @@
 import { SunIcon, MoonIcon } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 
+const { t } = useI18n()
 const colorMode = useColorMode()
 
 function toggleTheme() {
@@ -10,7 +11,7 @@ function toggleTheme() {
 </script>
 
 <template>
-  <Button variant="outline" size="icon" aria-label="Alternar tema" @click="toggleTheme">
+  <Button variant="outline" size="icon" :aria-label="t('themeToggle.ariaLabel')" @click="toggleTheme">
     <SunIcon v-if="colorMode.value === 'dark'" class="h-4 w-4" />
     <MoonIcon v-else class="h-4 w-4" />
   </Button>

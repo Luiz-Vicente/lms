@@ -21,6 +21,7 @@ interface ViaCEPResponse {
   erro?: boolean
 }
 
+const { t } = useI18n()
 const router = useRouter()
 const { public: { apiBaseUrl } } = useRuntimeConfig()
 
@@ -59,7 +60,7 @@ async function fetchAddress(cepValue: string) {
     const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`)
     const data: ViaCEPResponse = await res.json()
     if (data.erro) {
-      cepError.value = 'CEP não encontrado.'
+      cepError.value = t('register.cep.notFound')
       return
     }
     street.value = data.logradouro
@@ -67,7 +68,7 @@ async function fetchAddress(cepValue: string) {
     city.value = data.localidade
     state.value = data.uf
   } catch {
-    cepError.value = 'Erro ao buscar CEP.'
+    cepError.value = t('register.cep.error')
   } finally {
     cepLoading.value = false
   }
@@ -100,9 +101,9 @@ async function handleRegister() {
     const status = (err as { statusCode?: number }).statusCode
     const message = (err as { data?: { message?: string } }).data?.message
     if (status === 409) {
-      submitError.value = message ?? 'Dado já cadastrado.'
+      submitError.value = message ?? t('register.errors.conflict')
     } else {
-      submitError.value = 'Erro ao realizar cadastro. Tente novamente.'
+      submitError.value = t('register.errors.generic')
     }
   } finally {
     submitLoading.value = false
@@ -114,41 +115,41 @@ async function handleRegister() {
   <div class="flex min-h-screen flex-col items-center justify-center px-4 py-10">
     <Card class="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Criar conta</CardTitle>
-        <CardDescription>Preencha os dados abaixo para se cadastrar.</CardDescription>
+        <CardTitle>{{ t('register.title') }}</CardTitle>
+        <CardDescription>{{ t('register.description') }}</CardDescription>
       </CardHeader>
       <CardContent>
         <form class="flex flex-col gap-6" @submit.prevent="handleRegister">
 
           <!-- Dados pessoais -->
           <div class="flex flex-col gap-4">
-            <p class="text-sm font-medium text-muted-foreground uppercase tracking-wide">Dados pessoais</p>
+            <p class="text-sm font-medium text-muted-foreground uppercase tracking-wide">{{ t('register.sections.personalData') }}</p>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div class="flex flex-col gap-2">
-                <Label for="firstName">Primeiro nome</Label>
-                <Input id="firstName" v-model="firstName" type="text" placeholder="João" required />
+                <Label for="firstName">{{ t('register.fields.firstName') }}</Label>
+                <Input id="firstName" v-model="firstName" type="text" :placeholder="t('register.placeholders.firstName')" required />
               </div>
               <div class="flex flex-col gap-2">
-                <Label for="lastName">Sobrenome</Label>
-                <Input id="lastName" v-model="lastName" type="text" placeholder="Silva" required />
+                <Label for="lastName">{{ t('register.fields.lastName') }}</Label>
+                <Input id="lastName" v-model="lastName" type="text" :placeholder="t('register.placeholders.lastName')" required />
               </div>
             </div>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div class="flex flex-col gap-2">
-                <Label for="email">E-mail</Label>
-                <Input id="email" v-model="email" type="email" placeholder="joao@email.com" required />
+                <Label for="email">{{ t('register.fields.email') }}</Label>
+                <Input id="email" v-model="email" type="email" placeholder="seu@email.com" required />
               </div>
               <div class="flex flex-col gap-2">
-                <Label for="phone">Telefone</Label>
+                <Label for="phone">{{ t('register.fields.phone') }}</Label>
                 <Input
                   id="phone"
                   v-model="phone"
                   v-maska
                   data-maska="['(##) ####-####', '(##) #####-####']"
                   type="tel"
-                  placeholder="(11) 99999-9999"
+                  :placeholder="t('register.placeholders.phone')"
                   inputmode="numeric"
                   required
                 />
@@ -157,7 +158,7 @@ async function handleRegister() {
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div class="flex flex-col gap-2">
-                <Label for="cpf">CPF</Label>
+                <Label for="cpf">{{ t('register.fields.cpf') }}</Label>
                 <Input
                   id="cpf"
                   v-model="cpf"
@@ -175,11 +176,11 @@ async function handleRegister() {
 
           <!-- Endereço -->
           <div class="flex flex-col gap-4">
-            <p class="text-sm font-medium text-muted-foreground uppercase tracking-wide">Endereço</p>
+            <p class="text-sm font-medium text-muted-foreground uppercase tracking-wide">{{ t('register.sections.address') }}</p>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div class="flex flex-col gap-2">
-                <Label for="cep">CEP</Label>
+                <Label for="cep">{{ t('register.fields.cep') }}</Label>
                 <Input
                   id="cep"
                   v-model="cep"
@@ -189,38 +190,38 @@ async function handleRegister() {
                   inputmode="numeric"
                   required
                 />
-                <p v-if="cepLoading" class="text-xs text-muted-foreground">Buscando...</p>
+                <p v-if="cepLoading" class="text-xs text-muted-foreground">{{ t('register.cep.loading') }}</p>
                 <p v-if="cepError" class="text-xs text-destructive">{{ cepError }}</p>
               </div>
               <div class="flex flex-col gap-2 sm:col-span-2">
-                <Label for="street">Rua</Label>
-                <Input id="street" v-model="street" type="text" placeholder="Rua das Flores" required />
+                <Label for="street">{{ t('register.fields.street') }}</Label>
+                <Input id="street" v-model="street" type="text" :placeholder="t('register.placeholders.street')" required />
               </div>
             </div>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div class="flex flex-col gap-2">
-                <Label for="number">Número</Label>
-                <Input id="number" v-model="number" type="text" placeholder="123" required />
+                <Label for="number">{{ t('register.fields.number') }}</Label>
+                <Input id="number" v-model="number" type="text" :placeholder="t('register.placeholders.number')" required />
               </div>
               <div class="flex flex-col gap-2 sm:col-span-2">
-                <Label for="complement">Complemento</Label>
-                <Input id="complement" v-model="complement" type="text" placeholder="Apto 4B (opcional)" />
+                <Label for="complement">{{ t('register.fields.complement') }}</Label>
+                <Input id="complement" v-model="complement" type="text" :placeholder="t('register.placeholders.complement')" />
               </div>
             </div>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div class="flex flex-col gap-2">
-                <Label for="neighborhood">Bairro</Label>
-                <Input id="neighborhood" v-model="neighborhood" type="text" placeholder="Centro" required />
+                <Label for="neighborhood">{{ t('register.fields.neighborhood') }}</Label>
+                <Input id="neighborhood" v-model="neighborhood" type="text" :placeholder="t('register.placeholders.neighborhood')" required />
               </div>
               <div class="flex flex-col gap-2">
-                <Label for="city">Cidade</Label>
-                <Input id="city" v-model="city" type="text" placeholder="São Paulo" required />
+                <Label for="city">{{ t('register.fields.city') }}</Label>
+                <Input id="city" v-model="city" type="text" :placeholder="t('register.placeholders.city')" required />
               </div>
               <div class="flex flex-col gap-2">
-                <Label for="state">Estado</Label>
-                <Input id="state" v-model="state" type="text" placeholder="SP" maxlength="2" required />
+                <Label for="state">{{ t('register.fields.state') }}</Label>
+                <Input id="state" v-model="state" type="text" :placeholder="t('register.placeholders.state')" maxlength="2" required />
               </div>
             </div>
           </div>
@@ -229,11 +230,11 @@ async function handleRegister() {
 
           <!-- Senha -->
           <div class="flex flex-col gap-4">
-            <p class="text-sm font-medium text-muted-foreground uppercase tracking-wide">Senha</p>
+            <p class="text-sm font-medium text-muted-foreground uppercase tracking-wide">{{ t('register.sections.password') }}</p>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div class="flex flex-col gap-2">
-                <Label for="password">Senha</Label>
+                <Label for="password">{{ t('register.fields.password') }}</Label>
                 <Input
                   id="password"
                   v-model="password"
@@ -244,7 +245,7 @@ async function handleRegister() {
                 />
               </div>
               <div class="flex flex-col gap-2">
-                <Label for="confirmPassword">Confirmar senha</Label>
+                <Label for="confirmPassword">{{ t('register.fields.confirmPassword') }}</Label>
                 <Input
                   id="confirmPassword"
                   v-model="confirmPassword"
@@ -260,13 +261,13 @@ async function handleRegister() {
           <p v-if="submitError" class="text-sm text-destructive text-center">{{ submitError }}</p>
 
           <Button type="submit" class="w-full" :disabled="submitLoading">
-            {{ submitLoading ? 'Cadastrando...' : 'Criar conta' }}
+            {{ submitLoading ? t('register.submitting') : t('register.submit') }}
           </Button>
 
           <p class="text-center text-sm text-muted-foreground">
-            Já tem uma conta?
+            {{ t('register.loginLink') }}
             <NuxtLink to="/" class="text-foreground font-medium hover:underline">
-              Entrar
+              {{ t('register.login') }}
             </NuxtLink>
           </p>
 

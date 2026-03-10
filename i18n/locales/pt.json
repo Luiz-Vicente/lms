@@ -1,0 +1,79 @@
+{
+  "common": {
+    "loading": "Carregando...",
+    "error": "Ocorreu um erro. Tente novamente."
+  },
+  "login": {
+    "title": "Entrar",
+    "description": "Digite seu e-mail para acessar sua conta.",
+    "email": "E-mail",
+    "password": "Senha",
+    "forgotPassword": "Esqueceu sua senha?",
+    "submit": "Entrar",
+    "submitting": "Entrando...",
+    "registerLink": "Não tem uma conta?",
+    "register": "Cadastre-se",
+    "errors": {
+      "invalidCredentials": "E-mail ou senha inválidos.",
+      "generic": "Erro ao realizar login. Tente novamente."
+    }
+  },
+  "register": {
+    "title": "Criar conta",
+    "description": "Preencha os dados abaixo para se cadastrar.",
+    "sections": {
+      "personalData": "Dados pessoais",
+      "address": "Endereço",
+      "password": "Senha"
+    },
+    "fields": {
+      "firstName": "Primeiro nome",
+      "lastName": "Sobrenome",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "cpf": "CPF",
+      "cep": "CEP",
+      "street": "Rua",
+      "number": "Número",
+      "complement": "Complemento",
+      "neighborhood": "Bairro",
+      "city": "Cidade",
+      "state": "Estado",
+      "password": "Senha",
+      "confirmPassword": "Confirmar senha"
+    },
+    "placeholders": {
+      "firstName": "João",
+      "lastName": "Silva",
+      "phone": "(11) 99999-9999",
+      "street": "Rua das Flores",
+      "number": "123",
+      "complement": "Apto 4B (opcional)",
+      "neighborhood": "Centro",
+      "city": "São Paulo",
+      "state": "SP"
+    },
+    "cep": {
+      "loading": "Buscando...",
+      "notFound": "CEP não encontrado.",
+      "error": "Erro ao buscar CEP."
+    },
+    "submit": "Criar conta",
+    "submitting": "Cadastrando...",
+    "loginLink": "Já tem uma conta?",
+    "login": "Entrar",
+    "errors": {
+      "conflict": "Dado já cadastrado.",
+      "generic": "Erro ao realizar cadastro. Tente novamente."
+    }
+  },
+  "home": {
+    "title": "Início"
+  },
+  "themeToggle": {
+    "ariaLabel": "Alternar tema"
+  },
+  "languageSwitcher": {
+    "ariaLabel": "Mudar idioma"
+  }
+}

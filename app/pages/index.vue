@@ -21,6 +21,7 @@ interface LoginResponse {
   }
 }
 
+const { t } = useI18n()
 const router = useRouter()
 const { public: { apiBaseUrl } } = useRuntimeConfig()
 
@@ -45,9 +46,9 @@ async function handleLogin() {
   } catch (err: unknown) {
     const status = (err as { statusCode?: number }).statusCode
     if (status === 401) {
-      error.value = 'E-mail ou senha inválidos.'
+      error.value = t('login.errors.invalidCredentials')
     } else {
-      error.value = 'Erro ao realizar login. Tente novamente.'
+      error.value = t('login.errors.generic')
     }
   } finally {
     loading.value = false
@@ -59,13 +60,13 @@ async function handleLogin() {
   <div class="flex min-h-screen items-center justify-center px-4">
     <Card class="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Entrar</CardTitle>
-        <CardDescription>Digite seu e-mail para acessar sua conta.</CardDescription>
+        <CardTitle>{{ t('login.title') }}</CardTitle>
+        <CardDescription>{{ t('login.description') }}</CardDescription>
       </CardHeader>
       <CardContent>
         <form class="flex flex-col gap-4" @submit.prevent="handleLogin">
           <div class="flex flex-col gap-2">
-            <Label for="email">E-mail</Label>
+            <Label for="email">{{ t('login.email') }}</Label>
             <Input
               id="email"
               v-model="email"
@@ -77,9 +78,9 @@ async function handleLogin() {
           </div>
           <div class="flex flex-col gap-2">
             <div class="flex items-center justify-between">
-              <Label for="password">Senha</Label>
+              <Label for="password">{{ t('login.password') }}</Label>
               <NuxtLink to="/forgot-password" class="text-sm text-muted-foreground hover:underline">
-                Esqueceu sua senha?
+                {{ t('login.forgotPassword') }}
               </NuxtLink>
             </div>
             <Input
@@ -93,12 +94,12 @@ async function handleLogin() {
           </div>
           <p v-if="error" class="text-sm text-destructive text-center">{{ error }}</p>
           <Button type="submit" class="w-full" :disabled="loading">
-            {{ loading ? 'Entrando...' : 'Entrar' }}
+            {{ loading ? t('login.submitting') : t('login.submit') }}
           </Button>
           <p class="text-center text-sm text-muted-foreground">
-            Não tem uma conta?
+            {{ t('login.registerLink') }}
             <NuxtLink to="/register" class="text-foreground font-medium hover:underline">
-              Cadastre-se
+              {{ t('login.register') }}
             </NuxtLink>
           </p>
         </form>
