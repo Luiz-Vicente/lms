@@ -21,6 +21,9 @@ interface ViaCEPResponse {
   erro?: boolean
 }
 
+const router = useRouter()
+const { public: { apiBaseUrl } } = useRuntimeConfig()
+
 const firstName = ref('')
 const lastName = ref('')
 const email = ref('')
@@ -38,6 +41,8 @@ const confirmPassword = ref('')
 
 const cepLoading = ref(false)
 const cepError = ref('')
+const submitLoading = ref(false)
+const submitError = ref('')
 
 watch(cep, (val) => {
   cepError.value = ''
@@ -68,23 +73,40 @@ async function fetchAddress(cepValue: string) {
   }
 }
 
-function handleRegister() {
-  console.log('Cadastro:', {
-    firstName: firstName.value,
-    lastName: lastName.value,
-    email: email.value,
-    phone: phone.value,
-    cpf: cpf.value,
-    address: {
-      cep: cep.value,
-      street: street.value,
-      number: number.value,
-      complement: complement.value,
-      neighborhood: neighborhood.value,
-      city: city.value,
-      state: state.value,
-    },
-  })
+async function handleRegister() {
+  submitError.value = ''
+  submitLoading.value = true
+  try {
+    await $fetch(`${apiBaseUrl}/users`, {
+      method: 'POST',
+      body: {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        email: email.value,
+        phone: phone.value,
+        cpf: cpf.value.replace(/\D/g, ''),
+        zipCode: cep.value.replace(/\D/g, ''),
+        street: street.value,
+        number: number.value,
+        complement: complement.value || undefined,
+        neighborhood: neighborhood.value,
+        city: city.value,
+        state: state.value,
+        password: password.value,
+      },
+    })
+    router.push('/')
+  } catch (err: unknown) {
+    const status = (err as { statusCode?: number }).statusCode
+    const message = (err as { data?: { message?: string } }).data?.message
+    if (status === 409) {
+      submitError.value = message ?? 'Dado já cadastrado.'
+    } else {
+      submitError.value = 'Erro ao realizar cadastro. Tente novamente.'
+    }
+  } finally {
+    submitLoading.value = false
+  }
 }
 </script>
 
@@ -235,8 +257,10 @@ function handleRegister() {
             </div>
           </div>
 
-          <Button type="submit" class="w-full">
-            Criar conta
+          <p v-if="submitError" class="text-sm text-destructive text-center">{{ submitError }}</p>
+
+          <Button type="submit" class="w-full" :disabled="submitLoading">
+            {{ submitLoading ? 'Cadastrando...' : 'Criar conta' }}
           </Button>
 
           <p class="text-center text-sm text-muted-foreground">

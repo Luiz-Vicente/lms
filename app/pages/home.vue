@@ -1,13 +1,10 @@
-<template>
-  <div>
-    Home
-  </div>
-</template>
-
-<script lang="ts" setup>
-
+<script setup lang="ts">
 </script>
 
-<style>
-
-</style>
+<template>
+  <div class="min-h-screen p-6">
+    <div class="flex justify-end">
+      <ThemeToggle />
+    </div>
+  </div>
+</template>
